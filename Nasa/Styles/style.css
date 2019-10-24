@@ -1,0 +1,225 @@
+#overlay {
+
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+
+    width: 50px;
+    height: 400px;
+    background-color: #FEFEFE;
+    opacity: 0.5;
+
+    margin: 50px 50px;
+    transition: all 250ms ease-in;
+
+    border-radius: 13px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+
+#overlay:hover {
+    opacity: 0.9;
+}
+
+#report {
+
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    right: 0;
+
+    width: 128px;
+    height: 128px;
+    background-color: #FEFEFE;
+    opacity: 0.5;
+
+    margin: 50px 50px;
+    transition: all 250ms ease-in;
+
+    border-radius: 50%;
+    display: inline-block;
+    overflow: hidden;
+}
+
+
+#report:hover {
+    opacity: 0.9;
+}
+
+#report-btn {
+
+    width: 96px;
+    height: 96px;
+    background-color: #FFCCCB;
+    opacity: 0.5;
+
+    margin: 16px auto;
+    transition: all 250ms ease-in;
+
+    border-radius: 50%;
+    cursor: pointer;
+    display: block;
+
+    text-align: center;
+    vertical-align: center;
+    line-height: 96px;
+}
+
+#report-btn:hover {
+    opacity: 1;
+}
+
+
+.marker {
+    background-size: contain;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    transition: opacity 200ms ease;
+}
+
+.marker-img {
+    display: block;
+    cursor: pointer;
+    background-size: contain;
+    width: 32px;
+    height: 32px;
+
+    transition: opacity 200ms ease;
+}
+
+#icon-layers {
+    background-color: #dce6d4;
+    margin: 0 auto;
+
+    opacity: 0.6;
+    cursor: pointer;
+
+    display: block;
+    transition: all 250ms ease-in-out;
+    border-bottom: 1px solid black;
+}
+
+#icon-layers:hover {
+    opacity: 1;
+}
+
+#icon-layers img {
+    margin: 0 auto;
+    display: block;
+}
+
+.icon-holder {
+    width: 32px;
+    height: 32px;
+    margin: 16px auto;
+
+    cursor: pointer;
+    opacity: 0.6;
+
+    display: block;
+    transition: opacity 250ms ease-in-out;
+}
+
+.icon-holder:hover {
+    opacity: 1;
+}
+
+#geocoder-container > div {
+    min-width:50%;
+    margin-left:25%;
+}
+
+.modal {
+    position: absolute;
+    left: 42%;
+    top: 30%;
+    margin-left: -150px;
+    margin-top: -150px;
+    opacity: 0.90;
+    background-color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.modal-body, .modal-title {
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 5px;
+}
+
+table.disaster-select-table, .camera-icon {
+    table-layout: auto;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+button.btn.btn-default {
+    width: 50%;
+    padding: 5px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    float: left;
+}
+
+embed, img {
+    height: 75px;
+    width: 75px;
+
+    background-size: contain;
+}
+
+.modal-header {
+    text-align: center;
+    font-size: 1.75em;
+}
+
+.disaster-select-table tbody tr {
+    text-align: center;
+}
+
+td {
+    padding: 15px;
+}
+
+.highlight {
+    font-style: italic;
+    background: yellow;
+
+    transition: all 250ms ease-in;
+}
+
+.highlight-on-click {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.highlight-on-click:hover {
+    transition: all 250ms ease-in;
+    opacity: 1;
+    cursor: pointer;
+}
+
+textarea {
+    width: 99%;
+}
+
+.modal-footer {
+    padding-top: 20px;
+}
+
+.image-title:hover {
+    cursor: pointer;
+}
+
+.spread {
+    background-color: #F8D496;
+    border-radius: 50%;
+    opacity: 0.2;
+
+    width: 64px;
+    height: 64px;
+}

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Disaster Io</title>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link rel="stylesheet" href="Scripts/jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.css">
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css' type='text/css' />
+    <link href="Styles/style.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            z-index: -999;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .truck{
+            width:20px;
+            height:20px;
+            border:2px solid #fff;
+            border-radius:50%;
+            background:#3887be;
+            pointer-events: none;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id='map'></div>
+<input class="file-upload" type="file" accept="image/*" style="display: none;"/>
+
+
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div id="modal-select" class="modal-content" hidden>
+            <div class="modal-header">
+                <h4 class="modal-title">What are you reporting?</h4>
+            </div>
+            <div class="modal-body">
+                <table class="disaster-select-table">
+                    <tr>
+                        <td>
+                            <div class="highlight-on-click" value="Res/icon-icebergs.svg">
+                                <embed src="./Res/icon-icebergs.svg" class="image-title">
+                                <p>Icebergs</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="highlight-on-click" value="Res/icon-dust-and-haze.svg">
+                                <embed src="./Res/icon-dust-and-haze.svg" class="image-title">
+                                <p>Dust storms</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="highlight-on-click" value="Res/icon-wildfires.svg">
+                                <embed src="./Res/icon-wildfires.svg" class="image-title">
+                                <p>Wildfires</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="highlight-on-click" value="Res/icon-sea-and-lake-ice.svg">
+                                <embed src="./Res/icon-sea-and-lake-ice.svg" class="image-title">
+                                <p>Ice</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="highlight-on-click" value="Res/icon-severe-storms.svg">
+                                <embed src="./Res/icon-severe-storms.svg" class="image-title">
+                                <p>Severe storms</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="highlight-on-click" value="Res/icon-snow.svg">
+                                <embed src="./Res/icon-snow.svg" class="image-title">
+                                <p>Snowstorm</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <div class="highlight-on-click" value="Res/icon-sos.png">
+                                <embed src="./Res/icon-sos.png" class="image-title">
+                                <p>I need help</p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="report1-submit" class="btn btn-default">Report</button>
+                <button type="button" id="report1-close" class="btn btn-default">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div id="modal-report" class="modal-content" hidden>
+            <div class="modal-header">
+                <h4 id="modal-reportfor" class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <img class="camera-icon" src="./Res/icon-camera.svg">
+                <button type="button" style="width: 100%" id="upload-report" class="btn btn-default">Upload a picture</button>
+                <p style="padding-top: 50px;">Comments: </p>
+                <textarea id="cam-caption" rows="15" cols="30">
+                    </textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="report-submit" class="btn btn-default">Report</button>
+                <button type="button" id="report-close" class="btn btn-default">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div id="report"><img id="report-btn" src="./Res/icon-critical.svg"></div>
+
+<script src="Scripts/app_test.js"></script>
+
+<!--API KEY: FiLek1zD0qfHwMhER5qQcyh5A0b0jnYKmZXqA3p0   -->
+</body>
+</html>
