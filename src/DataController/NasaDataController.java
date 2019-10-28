@@ -133,6 +133,9 @@ public class NasaDataController {
 
                                 // Add to Polygons
                                 polygons.add(new Polygon(geometriesDate, geometriesType, vectors));
+
+                                // Refresh List
+                                vectors = new HashMap<>();
                             }
                         }
                     }

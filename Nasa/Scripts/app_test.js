@@ -1,11 +1,12 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGlzYXN0ZXJpbyIsImEiOiJjazF3eXpuaDgwNzMzM2x1YXA2YzViOGFwIn0.r_CUebFU80v4DrNZLTL1Tw';
+var polyList = [];
 var dataList = [];
 
 const map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-    center: [0, 0], // starting position [lng, lat]
-    zoom: 4 // starting zoom
+    center: [127.842865, 1.6633016], // starting position [lng, lat]
+    zoom: 12 // starting zoom
 });
 
 const geocoder = new MapboxGeocoder({
@@ -33,7 +34,7 @@ $(document).ready(function () {
 
     map.on('load', function () {
 
-
+        // Check what polygons we have to load
     });
 
     function ParseNasaEventData (data) {
@@ -42,24 +43,26 @@ $(document).ready(function () {
         for (let i = 0; i < data.length; i++) {
 
             // Get id, link description, title
-            let eventId = data[i].id;
-            let eventLink = data[i].link;
-            let eventDescription = data[i].description;
-            let eventTitle = data[i].title;
+            var eventId = data[i].id;
+            var eventLink = data[i].link;
+            var eventDescription = data[i].description;
+            var eventTitle = data[i].title;
 
             // Get Categories, source, geometries
-            let eventCategories = data[i].categories;
-            let eventSources = data[i].sources;
-            let eventGeo;
+            var eventCategories = data[i].categories;
+            var eventSources = data[i].sources;
+            var eventGeo;
 
             // Image
-            let imageName = getImageFromTitle(eventCategories[0].title);
+            var imageName = getImageFromTitle(eventCategories[0].title);
 
             // Check type of vector
-            try {
+            if (data[i].points != null) {
                 eventGeo = data[i].points;
-            } catch (e) {
-                eventGeo = data[i].polygon;
+            } else {
+                eventGeo = data[i].polygons;
+
+
             }
 
             // Create marker object
@@ -84,19 +87,19 @@ $(document).ready(function () {
             el.appendChild(er);
 
             // Create Marker on the map
-            for (let x = 0; x < eventGeo.length; x++) {
+                for (let x = 0; x < eventGeo.length; x++) {
 
-                if (eventGeo[x].type === "Point") {
-                    new mapboxgl.Marker(spr)
-                        .setLngLat(eventGeo[x].points)
-                        .addTo(map);
-                    new mapboxgl.Marker(el)
-                     .setLngLat(eventGeo[x].points)
-                     .addTo(map);
+                    if (eventGeo[x].type === "Point") {
+                        new mapboxgl.Marker(spr)
+                            .setLngLat(eventGeo[x].points)
+                            .addTo(map);
+                        new mapboxgl.Marker(el)
+                            .setLngLat(eventGeo[x].points)
+                            .addTo(map);
+
+                    }
 
                 }
-
-            }
 
         }
 
@@ -117,5 +120,17 @@ $(document).ready(function () {
         return temp;
     }
 
+    function convertPointToGeo (event) {
+        let temp = [[]];
+
+        console.log(event);
+
+        for (let i = 0; i < event.length; i++) {
+            temp[0].push(event[i].points);
+        }
+
+        console.log(temp);
+        return temp;
+    }
 
 });
