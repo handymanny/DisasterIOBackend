@@ -62,7 +62,27 @@ $(document).ready(function () {
             } else {
                 eventGeo = data[i].polygons;
 
-
+                map.addLayer({
+                    'id': eventId,
+                    'type': 'fill',
+                    'source': {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'Feature',
+                            'geometry': {
+                                'type': 'Polygon',
+                                'coordinates': convertPointToGeo(eventGeo)
+                            }
+                        }
+                    },
+                    'layout': {
+                        'visibility': 'visible'
+                    },
+                    'paint': {
+                        'fill-color': '#088',
+                        'fill-opacity': 0.8
+                    }
+                });
             }
 
             // Create marker object
