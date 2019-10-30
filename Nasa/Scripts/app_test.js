@@ -1,6 +1,9 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGlzYXN0ZXJpbyIsImEiOiJjazF3eXpuaDgwNzMzM2x1YXA2YzViOGFwIn0.r_CUebFU80v4DrNZLTL1Tw';
-var polyList = [];
-var dataList = [];
+let polyList = [];
+let dataList = [];
+
+// Setup websocket
+let socket = new WebSocket("ws://localhost:8080/v1/api/realtime");
 
 const map = new mapboxgl.Map({
     container: 'map', // container id
@@ -31,10 +34,38 @@ $(document).ready(function () {
 
     $.getJSON("http://localhost:8080/v1/api/nasa", ParseNasaEventData);
 
+    // Let user know they are connected to socket
+    socket.onopen = function(e) {
+        console.log("Real-time socket connected");
+    };
+
+    // Parse data when message is retrieved
+    socket.onmessage = function(event) {
+        let data = JSON.parse(event.data);
+        console.log("Data received: "+data);
+
+        addCrowdMarker(data);
+
+    };
+
+    // Let user know when socket is closed
+    socket.onclose = function(event) {
+        if (event.wasClean) {
+            console.log("Connection closed cleanly");
+        } else {
+            // e.g. server process killed or network down
+            // event.code is usually 1006 in this case
+            console.log("Connection died");
+        }
+    };
+
+    // Let user know when there is an error on the socket
+    socket.onerror = function(error) {
+        alert(`Error: ${error.message}`);
+    };
 
     map.on('load', function () {
 
-        // Check what polygons we have to load
     });
 
     function ParseNasaEventData (data) {
@@ -143,14 +174,25 @@ $(document).ready(function () {
     function convertPointToGeo (event) {
         let temp = [[]];
 
-        console.log(event);
-
         for (let i = 0; i < event.length; i++) {
             temp[0].push(event[i].points);
         }
 
-        console.log(temp);
         return temp;
     }
 
 });
+
+
+function addCrowdMarker(event) {
+         new mapboxgl.Marker()
+                    .setLngLat(event.geometry.coordinates)
+                    .addTo(map);
+
+}
+
+function testCrowdEvent (msg) {
+    $.ajax({
+        url: "http://localhost:8080/v1/api/crowd/event"
+    });
+}

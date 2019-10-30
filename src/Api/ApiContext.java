@@ -1,5 +1,6 @@
 package Api;
 
+import WebSockets.WebSocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Service;
@@ -18,6 +19,10 @@ public class ApiContext {
     public void addEndpoint(EndpointBuilder endpoint) {
         endpoint.configure(spark, basePath);
         logger.info("REST endpoints registered for {}.", endpoint.getClass().getSimpleName());
+    }
+
+    public void addWebsockets() {
+        spark.webSocket(basePath+"/realtime", WebSocketHandler.class);
     }
 
     // Then you can even have some fun:

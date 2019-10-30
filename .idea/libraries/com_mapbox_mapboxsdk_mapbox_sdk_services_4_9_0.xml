@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="com.mapbox.mapboxsdk:mapbox-sdk-services:4.9.0" type="repository">
+    <properties maven-id="com.mapbox.mapboxsdk:mapbox-sdk-services:4.9.0" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/mapbox/mapboxsdk/mapbox-sdk-services/4.9.0/mapbox-sdk-services-4.9.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/mapbox/mapboxsdk/mapbox-sdk-core/4.9.0/mapbox-sdk-core-4.9.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/squareup/retrofit2/retrofit/2.4.0/retrofit-2.4.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/squareup/okhttp3/okhttp/3.10.0/okhttp-3.10.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/squareup/okio/okio/1.14.0/okio-1.14.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/squareup/retrofit2/converter-gson/2.4.0/converter-gson-2.4.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/squareup/okhttp3/logging-interceptor/3.11.0/logging-interceptor-3.11.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/mapbox/mapboxsdk/mapbox-sdk-geojson/4.9.0/mapbox-sdk-geojson-4.9.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

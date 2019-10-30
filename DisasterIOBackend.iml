@@ -11,5 +11,7 @@
     <orderEntry type="library" name="com.sparkjava:spark-core:2.8.0" level="project" />
     <orderEntry type="library" name="Simple Logging Facade for Java:1.7.21" level="project" />
     <orderEntry type="library" name="com.nexmo:client:5.1.0" level="project" />
+    <orderEntry type="library" name="com.mapbox.mapboxsdk:mapbox-sdk-geojson:4.9.0" level="project" />
+    <orderEntry type="library" name="com.mapbox.mapboxsdk:mapbox-sdk-services:4.9.0" level="project" />
   </component>
 </module>
