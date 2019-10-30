@@ -41,10 +41,20 @@ $(document).ready(function () {
 
     // Parse data when message is retrieved
     socket.onmessage = function(event) {
-        let data = JSON.parse(event.data);
-        console.log("Data received: "+data);
+        try {
+            let data = JSON.parse(event.data);
 
-        addCrowdMarker(data);
+            // Message Type
+            if (data.method === 1) {
+                addSmsMarker(data)
+
+            } else if (data.method === 2) {
+                addCrowdMarker(data)
+            }
+
+        } catch(err) {
+            console.log("Not a JSON Object");
+        }
 
     };
 
@@ -61,7 +71,7 @@ $(document).ready(function () {
 
     // Let user know when there is an error on the socket
     socket.onerror = function(error) {
-        alert(`Error: ${error.message}`);
+        console.log(`Error: ${error.message}`);
     };
 
     map.on('load', function () {
@@ -181,18 +191,112 @@ $(document).ready(function () {
         return temp;
     }
 
+
+    $(".file-upload").on('change', function(){
+        readURL(this);
+    });
+
+    $("#report-btn").click(()=> {
+        $("#modal-select").removeAttr("hidden");
+    });
+
+    $("#report1-submit").click(() => {
+        let text = highlighted.children("p").text();
+        $("#modal-reportfor").text(`Report for ${text}`);
+        $("#modal-select").attr("hidden", true);
+        $("#modal-report").removeAttr("hidden");
+    });
+
+    $("#report1-close").click(() => {
+        $("#modal-select").attr("hidden", true);
+    });
+
+    $("#report-submit").click(()=> {
+        $("#modal-report").attr("hidden", true);
+    });
+
+    $("#report-close").click(()=> {
+        $("#modal-report").attr("hidden", true);
+    });
+
+
+    let highlighted;
+
+    $(".highlight-on-click").click(function() {
+
+        // remove highlight on click class
+        // add highlight on click class to current
+        // store reference to currently highlighted
+
+        if (highlighted !== undefined) {
+            highlighted.toggleClass("highlight");
+        }
+
+        $(this).toggleClass("highlight");
+        highlighted = $(this);
+    });
+
+
+
+
+//    Crowd Markers on map based on center of the screen
+    $("#report-submit").on('click', function () {
+
+        // Check for highlighted item
+        let x = document.getElementsByClassName("highlight-on-click highlight")[0];
+        let imageName = x.getAttribute('value');
+
+        let cord_f = map.getCenter();
+        let cord = { lng : cord_f['lng'], lat : cord_f['lat']};
+
+        // Update other users
+        sendCrowdEvent({cord, imageName});
+        console.log("New Marker Created");
+    });
+
+    function addCrowdMarker (msg) {
+        console.log(msg);
+
+        // Create style of marker
+        let el = document.createElement('div');
+        el.className = 'marker';
+        el.id = "CROWD"+Date.now();
+
+        let coords = [msg.data.lng, msg.data.lat];
+
+        let er = document.createElement('img');
+        er.className = 'marker-img';
+        er.src = msg.data.image_name;
+        er.width = "40px;";
+        er.height = "40px;";
+
+        el.appendChild(er);
+
+        // Set marker on center
+        new mapboxgl.Marker(el)
+            .setLngLat(coords)
+            .addTo(map);
+
+
+        console.log("New Crowd Marker Created");
+    }
+
 });
 
 
-function addCrowdMarker(event) {
+function addSmsMarker(event) {
+    eventData = JSON.parse(event.data);
+
+    console.log(eventData);
          new mapboxgl.Marker()
-                    .setLngLat(event.geometry.coordinates)
+                    .setLngLat(eventData.geometry.coordinates)
                     .addTo(map);
 
 }
 
-function testCrowdEvent (msg) {
+function sendCrowdEvent (msg) {
     $.ajax({
-        url: "http://localhost:8080/v1/api/crowd/event"
+        url: "http://localhost:8080/v1/api/crowd/event",
+        data: {'lng' : msg.cord.lng, 'lat' : msg.cord.lat, 'event' : msg.imageName}
     });
 }

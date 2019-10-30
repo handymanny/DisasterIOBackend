@@ -3,6 +3,7 @@ package DataController;
 import Objects.MessageSms;
 import Sms.DisasterSms;
 import WebSockets.WebSocketHandler;
+import com.mapbox.api.geocoding.v5.GeocodingCriteria;
 
 public class SmsController {
 
@@ -19,7 +20,6 @@ public class SmsController {
     public boolean getSmsInbound(MessageSms sms) {
         //Create new DisasterSms Object
         if (sms != null || sms.getMsisdn() != null) {
-            sender = new DisasterSms(ADDR, "Thank you for the update!");
 
             // Temporary
             String address;
@@ -28,11 +28,11 @@ public class SmsController {
             if (sms.getText().startsWith("Disaster")) {
                 address = sms.getText().substring(8);
 
-                // Create json object string
-                String jsonAddress = "{ 'address' : "+address+"}";
+                // Responder
+                sender = new DisasterSms(ADDR, "Thank you for the update! We have updated "+address);
 
                 // Send our address to api
-                WebSocketHandler.broadcast(jsonAddress);
+                MapBoxController.getGeocoderResult(GeocodingCriteria.TYPE_ADDRESS, address);
 
             }
 

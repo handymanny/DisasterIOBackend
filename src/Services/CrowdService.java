@@ -1,6 +1,7 @@
 package Services;
 
 import DataController.CrowdDataController;
+import Objects.MarkerMessage;
 
 public class CrowdService {
 
@@ -12,7 +13,7 @@ public class CrowdService {
     }
 
     // Methods
-    public String getCrowdEvent () {
-        return crowdDataController.getCrowdEvent();
+    public String getCrowdEvent (MarkerMessage mkMsg) {
+        return crowdDataController.getCrowdEvent(mkMsg);
     }
 }

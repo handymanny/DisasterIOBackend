@@ -36,17 +36,18 @@ public class WebSocketHandler {
         session.getRemote().sendString(message); // and send it back
     }
 
-    public static void broadcast (String message) {
+    public static void broadcast (Object message) {
 
         // Transformer
         Gson gson = new Gson();
+        log.info(gson.toJson(message));
 
         // Send message to all sessions
         sessions.stream()
                 .filter(Session::isOpen)
                 .forEach(session -> {
                     try {
-                        session.getRemote().sendString(message);
+                        session.getRemote().sendString(gson.toJson(message));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

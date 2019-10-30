@@ -509,7 +509,6 @@ $(document).ready(function () {
         readURL(this);
     });
 
-
     $("#report-btn").click(()=> {
         $("#modal-select").removeAttr("hidden");
     });
