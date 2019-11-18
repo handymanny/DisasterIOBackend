@@ -23,5 +23,6 @@ We were lucky enough to make some exciting contacts through Space Apps mentors a
 We built our program with HTML, CSS, JavaScript, jQuery, the jQuery-UI library, the Mapbox API, and the NASA EONET API. We would love to eventually implement a back-end to offer our own API for use, which we would most likely do using Java. 
 
 
-<b>Update Code</b>
+<b>Updated Code</b>
+
 So far we have added real-time updates as well as a new java backend to control the data in and out, we use a web hook to send data real-time allowing users send crowd updates and send sos updates.
